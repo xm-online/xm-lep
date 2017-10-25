@@ -1,0 +1,31 @@
+buildscript {
+    // include versions script
+    apply from: rootProject.file('gradle/libversions.gradle')
+}
+
+plugins {
+    id 'org.dm.bundle' version '0.10.0' apply false
+}
+
+// project parameters
+project.group = property('app.group')
+project.description = property('app.description')
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "${versions.gradle}"
+}
+
+allprojects {
+    group = property('app.group')
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply from: rootProject.file('gradle/org-dm-bundle.gradle')
+
+    repositories {
+        mavenCentral()
+    }
+}

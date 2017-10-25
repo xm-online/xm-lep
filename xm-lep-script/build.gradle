@@ -1,0 +1,12 @@
+dependencies {
+    compile project(":xm-lep-api")
+
+    testCompile "junit:junit:$versions.junit"
+}
+
+apply from: rootProject.file('gradle/org-dm-bundle-common.gradle')
+bundle {
+    instructions << [
+            'Export-Package': 'com.icthh.xm.lep.script',
+    ]
+}

@@ -1,0 +1,8 @@
+include ":xm-lep-api"
+include ":xm-lep-api-commons"
+include ":xm-lep-core"
+include ":xm-lep-entry"
+include ":xm-lep-groovy"
+include ":xm-lep-script"
+
+rootProject.name = String.valueOf(getProperty("app.name"))

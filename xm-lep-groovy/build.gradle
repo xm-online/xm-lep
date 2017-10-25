@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(":xm-lep-api")
+    compile project(":xm-lep-api-commons")
+    compile project(":xm-lep-script")
+
+    compile "org.codehaus.groovy:groovy-all:$versions.groovyAll"
+
+    testCompile "junit:junit:$versions.junit"
+    testCompile "org.mockito:mockito-core:$versions.mockito"
+}
+
+apply from: rootProject.file('gradle/org-dm-bundle-common.gradle')
+bundle {
+    instructions << [
+            'Export-Package': 'com.icthh.xm.lep.groovy',
+    ]
+}

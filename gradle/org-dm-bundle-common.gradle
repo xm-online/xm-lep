@@ -1,0 +1,13 @@
+bundle {
+    failOnError = true
+    //includeTransitiveDependencies = true
+    trace = true
+
+    // http://felix.apache.org/documentation/faqs/apache-felix-bundle-plugin-faq.html#when-i-embed-a-dependency-why-do-i-see-duplicated-content
+    instructions << [
+            '-plugin'         : 'aQute.lib.spring.SpringXMLType',
+            'Bundle-ClassPath': bundleClassPath(),
+            'Include-Resource': bundleIncludeResource(),
+    ]
+
+}
