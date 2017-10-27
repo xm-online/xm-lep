@@ -1,14 +1,6 @@
 buildscript {
     // include versions script
     apply from: rootProject.file('gradle/lib-versions.gradle')
-
-    repositories {
-        maven { url "https://repo.spring.io/plugins-release" }
-    }
-
-    dependencies {
-        classpath("io.spring.gradle:propdeps-plugin:$versions.propdepsPlugin")
-    }
 }
 
 plugins {
