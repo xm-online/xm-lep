@@ -24,7 +24,11 @@ public class LepResourceKeyURLConnection extends URLConnection {
     private final ContextsHolder contextsHolder;
 
     /**
-     * Constructs a URL connection to the specified URL.
+     * Constructs a URLConnection subclass to the specified URL.
+     *
+     * @param resourceKey LEP resource key URL instance
+     * @param resourceService LEP resource service
+     * @param contextsHolder LEP contexts holder
      */
     public LepResourceKeyURLConnection(UrlLepResourceKey resourceKey,
                                        LepResourceService resourceService,

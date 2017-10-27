@@ -1,0 +1,53 @@
+
+version = detectVersion()
+
+logger.lifecycle("Project version: $version")
+
+int getNormalizedVersionPart(String name) {
+    hasProperty(name) ? Integer.parseInt((String) getProperty(name)) : 0
+}
+
+ProjectVersion detectVersion() {
+    int major = getNormalizedVersionPart('app.version.major')
+    int minor = getNormalizedVersionPart('app.version.minor')
+    int patch = getNormalizedVersionPart('app.version.patch')
+
+    // return version as result
+    new ProjectVersion(major, minor, patch, ProjectVersion.SNAPSHOT)
+}
+
+class ProjectVersion {
+
+    public static final String SNAPSHOT = "SNAPSHOT"
+
+    int major
+    int minor
+    int patch
+    String qualifier
+
+    ProjectVersion(int major, int minor, int patch) {
+        this(major, minor, patch, null)
+    }
+
+    ProjectVersion(int major, int minor, int patch, String qualifier) {
+        this.major = major
+        this.minor = minor
+        this.patch = patch
+        this.qualifier = qualifier
+    }
+
+    @Override
+    String toString() {
+        String version = "$major.$minor.$patch"
+        if (qualifier != null) {
+            version += "-$qualifier"
+        }
+        version
+    }
+
+    public boolean isRelease() {
+        String version = toString()
+        return !"0.0.0".equals(version) && !version.endsWith(SNAPSHOT)
+    }
+
+}

@@ -1,4 +1,4 @@
-apply plugin: 'java'
+description = 'XM^online LEP groovy implementation'
 
 dependencies {
     compile project(":xm-lep-api")

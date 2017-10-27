@@ -14,6 +14,7 @@ public interface MethodSignature {
      * Returns the identifier part of this signature.  For methods this
      * will return the method name.
      *
+     * @return the identifier part of this signature
      * @see java.lang.reflect.Member#getName
      */
     String getName();
@@ -21,7 +22,7 @@ public interface MethodSignature {
     /**
      * Returns the modifiers on this signature represented as an int.  Use
      * the constants and helper methods defined on
-     * <code>java.lang.reflect.Modifier</code> to manipulate this, i.e.
+     * {@code java.lang.reflect.Modifier} to manipulate this, i.e.
      * <pre>
      *     // check if this signature is public
      *     java.lang.reflect.Modifier.isPublic(sig.getModifiers());
@@ -30,21 +31,24 @@ public interface MethodSignature {
      *     java.lang.reflect.Modifier.toString(sig.getModifiers());
      * </pre>
      *
+     * @return the modifiers on this signature represented as an int
      * @see java.lang.reflect.Member#getModifiers
      * @see java.lang.reflect.Modifier
      */
     int getModifiers();
 
     /**
-     * <p>Returns a <code>java.lang.Class</code> object representing the class,
+     * <p>Returns a {@code java.lang.Class} object representing the class,
      * interface, or aspect (proxy) that declared this member.  For intra-member
      * declarations, this will be the type on which the member is declared,
      * not the type where the declaration is lexically written.  Use
-     * <code>SourceLocation.getWithinType()</code> to get the type in
+     * {@code SourceLocation.getWithinType()} to get the type in
      * which the declaration occurs lexically.</p>
-     * <p>For consistency with <code>java.lang.reflect.Member</code>, this
-     * method named <code>getDeclaringClass()</code>.</p>
+     * <p>For consistency with {@code java.lang.reflect.Member}, this
+     * method named {@code getDeclaringClass()}.</p>
      *
+     * @return a {@code java.lang.Class} object representing the class, interface,
+     * or aspect (proxy) that declared this member
      * @see java.lang.reflect.Member#getDeclaringClass
      */
     Class<?> getDeclaringClass();
@@ -53,6 +57,8 @@ public interface MethodSignature {
      * Returns the fully-qualified name of the declaring type. This is
      * equivalent to calling getDeclaringClass().getName(), but caches
      * the result for greater efficiency.
+     *
+     * @return the fully-qualified name of the declaring type
      */
     String getDeclaringClassName();
 

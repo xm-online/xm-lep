@@ -26,6 +26,7 @@ public interface LepManager extends LepManagerService {
      * @param keyResolver              dynamic LEP key resolver, can be {@code null}
      * @param method                   callable method data
      * @return LEP result value
+     * @throws LepInvocationCauseException when LEP invocation resource throws exception
      */
     Object processLep(LepKey key,
                       Version extensionResourceVersion,

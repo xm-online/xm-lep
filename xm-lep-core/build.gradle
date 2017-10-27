@@ -1,4 +1,4 @@
-apply plugin: 'java'
+description = 'XM^online LEP core'
 
 dependencies {
     compile project(":xm-lep-api")

@@ -20,6 +20,7 @@ public interface ExecutionStrategy<E, RK extends LepResourceKey> {
      * @param managerService           LEP manager service
      * @param resourceExecutorSupplier LEP resource executor supplier function
      * @return LEP method result
+     * @throws LepInvocationCauseException when LEP invocation resource throws exception
      */
     Object executeLepResource(RK resourceKey,
                               LepMethod method,

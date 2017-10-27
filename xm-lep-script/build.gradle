@@ -1,3 +1,5 @@
+description = 'XM^online LEP resource implementation in script'
+
 dependencies {
     compile project(":xm-lep-api")
 

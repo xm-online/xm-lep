@@ -13,6 +13,7 @@ public interface LepExecutor {
      * @param method                   method data on what LEP call occurs
      * @param managerService           LEP manager service object
      * @return LEP result value
+     * @throws LepInvocationCauseException when LEP invocation resource throws exception
      */
     Object execute(LepKey extensionKey,
                    Version extensionResourceVersion,

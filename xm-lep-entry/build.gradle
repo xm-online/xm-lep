@@ -1,3 +1,5 @@
+description = 'XM^online LEP entry point'
+
 dependencies {
     compile project(":xm-lep-api")
 

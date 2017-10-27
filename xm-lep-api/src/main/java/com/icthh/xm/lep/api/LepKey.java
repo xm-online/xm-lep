@@ -15,7 +15,7 @@ public interface LepKey {
 
     /**
      * Returns group key to which belongs this LepKey.
-     * <p/>
+     * <p>
      * For top level group or if group not specified for this LepKey instance
      * the method can return {@code null}.
      *

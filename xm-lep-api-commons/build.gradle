@@ -1,3 +1,5 @@
+description = 'XM^online LEP API commons implementations'
+
 dependencies {
     compile project(":xm-lep-api")
 

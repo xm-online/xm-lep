@@ -1,11 +1,25 @@
 buildscript {
     // include versions script
-    apply from: rootProject.file('gradle/libversions.gradle')
+    apply from: rootProject.file('gradle/lib-versions.gradle')
+
+    repositories {
+        maven { url "https://repo.spring.io/plugins-release" }
+    }
+
+    dependencies {
+        classpath("io.spring.gradle:propdeps-plugin:$versions.propdepsPlugin")
+    }
 }
 
 plugins {
     id 'org.dm.bundle' version '0.10.0' apply false
+    // Plugin for support environment's with gradle.properties (gradle-local.properties is default local environment)
+    id 'net.saliman.properties' version '1.4.6'
 }
+
+apply plugin: 'base'
+// init project version
+apply from: rootProject.file('gradle/version.gradle')
 
 // project parameters
 project.group = property('app.group')
@@ -22,10 +36,165 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
+    apply plugin: 'checkstyle'
     apply from: rootProject.file('gradle/org-dm-bundle.gradle')
+
+    version = parent.version
 
     repositories {
         mavenCentral()
     }
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    [compileJava, compileTestJava]*.options.collect {
+        options -> options.encoding = "UTF-8"
+    }
+
+    test {
+        systemProperty("java.awt.headless", "true")
+        systemProperty("testGroups", project.properties.get("testGroups"))
+
+        scanForTestClasses = false
+        include(["**/*Tests.class", "**/*Test.class"])
+        // Since we set scanForTestClasses to false, we need to filter out inner
+        // classes with the "$" pattern; otherwise, using -Dtest.single=MyTests to
+        // run MyTests by itself will fail if MyTests contains any inner classes.
+        exclude(["**/Abstract*.class", '**/*$*'])
+        reports.junitXml.setDestination(file("$buildDir/test-results"))
+        reports.html.enabled = true
+        testLogging {
+            exceptionFormat = 'full'
+            events "passed", "skipped", "failed", "standardOut", "standardError"
+        }
+    }
+
+    javadoc {
+        description = "Generates project-level javadoc for use in -javadoc jar"
+
+        options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+        options.author = true
+        options.header = project.name
+        options.use = true
+        //options.links(project.ext.javadocLinks)
+        options.addStringOption('Xdoclint:none', '-quiet')
+
+        // Suppress warnings due to cross-module @see and @link references.
+        // Note that global 'api' task does display all warnings.
+        //logging.captureStandardError LogLevel.INFO
+        //logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
+    }
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    task sourcesJar(type: Jar) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+
+    signing {
+        // We only want to require signing if we are building a release version and we are going to publish it.
+        // Because we are inspecting the task graph to determine if we are going to be publishing,
+        // we must set the signing.required property to a closure to defer the evaluation
+        required {
+            version.isRelease() && gradle.taskGraph.hasTask("uploadArchives")
+        }
+        sign configurations.archives
+    }
+
+    checkstyle {
+        toolVersion = versions.checkstyle
+        ignoreFailures = true
+        configFile = rootProject.file('qa/checkstyle.xml')
+        sourceSets = [sourceSets.main]
+    }
+
+    // for init some pom values or jar manifest (for example: description) from sub-projects use `afterEvaluate`
+    afterEvaluate {
+
+        uploadArchives {
+            def projectDescription = ((project.description != null) ? project.description : project.name)
+
+            jar {
+                manifest {
+                    attributes(
+                        'Implementation-Vendor': project.property('app.vendor'),
+                        'Specification-Title': projectDescription
+                    )
+                }
+            }
+
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                    //repository(url: "file://" + rootProject.buildDir.absolutePath + File.separatorChar + "mvn-local-repo") {
+                    //}
+
+                    repository(id: 'sonatype-nexus-staging',
+                               url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
+                    }
+
+                    snapshotRepository(id: 'sonatype-nexus-snapshots',
+                                       url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
+                    }
+
+                    pom.project {
+                        packaging 'jar'
+                        name project.name
+                        description projectDescription
+                        url 'https://xm.icthh.com'
+
+                        scm {
+                            url 'https://github.com/xm-online/xm-lep'
+                            connection 'scm:git:git://github.com/xm-online/xm-lep.git'
+                            developerConnection 'scm:git:git://github.com/xm-online/xm-lep.git'
+                        }
+
+                        licenses {
+                            license {
+                                name 'The Apache License, Version 2.0'
+                                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id 'adovbnya'
+                                name 'Alexander Dovbnya'
+                                email 'adovbnya@icthh.com'
+                            }
+                        }
+                    }
+
+                    // remove test dependencies from pom file
+                    pom.withXml {
+                        Node pomNode = asNode()
+                        pomNode.dependencies.'*'.findAll() {
+                            it.scope.text() == 'test'
+                        }.each() {
+                            it.parent().remove(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+clean.doFirst {
+    delete rootProject.buildDir
 }

@@ -1,3 +1,5 @@
+description = 'XM^online LEP API'
+
 dependencies {
     testCompile "junit:junit:$versions.junit"
 }
