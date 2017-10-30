@@ -27,11 +27,18 @@ public abstract class LepProcessingEvent extends EventObject {
         return LepManager.class.cast(source);
     }
 
-    public static abstract class BaseLepProcessingEvent extends LepProcessingEvent {
+    public abstract static class BaseLepProcessingEvent extends LepProcessingEvent {
 
         private final transient LepKey key;
         private final transient LepMethod method;
 
+        /**
+         * Base constructor.
+         *
+         * @param source event source
+         * @param key    resource key
+         * @param method LEP method
+         */
         public BaseLepProcessingEvent(LepManager source,
                                       LepKey key,
                                       LepMethod method) {
@@ -112,6 +119,15 @@ public abstract class LepProcessingEvent extends EventObject {
         private final Exception exception;
         private final transient Object resultValue;
 
+        /**
+         * Base constructor.
+         *
+         * @param source      event source
+         * @param key         resource key
+         * @param method      LEP method
+         * @param exception   method exception or null
+         * @param resultValue method result
+         */
         public AfterProcessingEvent(LepManager source,
                                     LepKey key,
                                     LepMethod method,

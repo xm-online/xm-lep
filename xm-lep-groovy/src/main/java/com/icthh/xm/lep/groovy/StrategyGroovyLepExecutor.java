@@ -30,6 +30,13 @@ public class StrategyGroovyLepExecutor extends BaseLepExecutor implements Groovy
 
     private final GroovyExecutionStrategy execStrategy;
 
+    /**
+     * StrategyGroovyLepExecutor constructor.
+     *
+     * @param scriptNameMapper script name to URL LepKey mapper
+     * @param providerStrategy script engine provider strategy
+     * @param execStrategy     groovy script executor strategy
+     */
     public StrategyGroovyLepExecutor(ScriptNameLepResourceKeyMapper scriptNameMapper,
                                      GroovyScriptEngineProviderStrategy providerStrategy,
                                      GroovyExecutionStrategy execStrategy) {
@@ -38,6 +45,9 @@ public class StrategyGroovyLepExecutor extends BaseLepExecutor implements Groovy
         this.execStrategy = Objects.requireNonNull(execStrategy, "execStrategy can't be null");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object execute(LepKey extensionKey,
                           Version extensionResourceVersion,
@@ -71,11 +81,17 @@ public class StrategyGroovyLepExecutor extends BaseLepExecutor implements Groovy
 
     // ===== GroovyScriptRunner methods
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ScriptNameLepResourceKeyMapper getResourceKeyMapper() {
         return scriptNameMapper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object runScript(UrlLepResourceKey lepResourceKey,
                             LepMethod lepMethod,

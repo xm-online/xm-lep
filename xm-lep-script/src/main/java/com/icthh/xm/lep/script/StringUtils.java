@@ -12,6 +12,15 @@ public final class StringUtils {
 
     private static final String NEW_LINE_MARKER = "\\n";
 
+    /**
+     * Generates text preview.
+     *
+     * @param text             original text
+     * @param linesCount       preview lines count
+     * @param ignoreEmptyLines flag to ignore blank lines while counting preview
+     * @param maxLength        max char length for preview (can be  {@code null} if this restriction is not needed)
+     * @return text preview string
+     */
     public static String getPreview(String text, int linesCount, boolean ignoreEmptyLines, Integer maxLength) {
         if (maxLength != null && maxLength < 0) {
             throw new IllegalArgumentException("maxLength can't be negative");
@@ -29,6 +38,16 @@ public final class StringUtils {
         return getPreview(linesCount, ignoreEmptyLines, maxLength, scanner);
     }
 
+    /**
+     * Generates text preview.
+     *
+     * @param is               original text input stream
+     * @param encoding         input stream encoding
+     * @param linesCount       preview lines count
+     * @param ignoreEmptyLines flag to ignore blank lines while counting preview
+     * @param maxLength        max char length for preview (can be  {@code null} if this restriction is not needed)
+     * @return text preview string
+     */
     public static String getPreview(InputStream is, String encoding, int linesCount, boolean ignoreEmptyLines,
                                     Integer maxLength) {
         if (maxLength != null && maxLength < 0) {

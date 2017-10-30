@@ -17,7 +17,7 @@ public class GroupMode {
 
     private final GroupMode parent;
 
-    private static final GroupMode NONE = new GroupMode();
+    private static final GroupMode NONE_MODE = new GroupMode();
 
     private GroupMode() {
         this.type = null;
@@ -27,7 +27,7 @@ public class GroupMode {
     }
 
     private GroupMode(GroupModeType type, KeyIdGroupMode keyIdGroupMode, int segmentsCount) {
-        this(type, keyIdGroupMode, segmentsCount, NONE);
+        this(type, keyIdGroupMode, segmentsCount, NONE_MODE);
     }
 
     private GroupMode(GroupModeType type, KeyIdGroupMode keyIdGroupMode, int segmentsCount, GroupMode parent) {
@@ -53,7 +53,7 @@ public class GroupMode {
     }
 
     public boolean isNone() {
-        return this == NONE;
+        return this == NONE_MODE;
     }
 
     public KeyIdGroupMode getKeyIdGroupMode() {
@@ -91,7 +91,7 @@ public class GroupMode {
     // BUILDERS ////////
 
     public static GroupMode none() {
-        return NONE;
+        return NONE_MODE;
     }
 
     public static GroupMode build(GroupModeType type, KeyIdGroupMode idMode, int segmentsCount) {
@@ -179,6 +179,11 @@ public class GroupMode {
             return parentMode(GroupModeType.SUFFIX, KeyIdGroupMode.EXCLUDE_GROUP, segmentsCount);
         }
 
+        /**
+         * Builds GroupMode based on previous builder settings calls.
+         *
+         * @return GroupMode instance or {@code null} if was no previous builder settings calls before
+         */
         public GroupMode build() {
             GroupMode current = null;
             while (!parameters.isEmpty()) {

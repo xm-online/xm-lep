@@ -25,7 +25,7 @@ public interface LepExecutor {
      *
      * @param listener the listener to add
      * @return {@code true} if the specified listener successfully added or executor already
-     * contains the specified listener
+     *     contains the specified listener
      */
     boolean registerExecutorListener(LepExecutorListener listener);
 

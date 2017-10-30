@@ -21,8 +21,7 @@ public interface MethodSignature {
 
     /**
      * Returns the modifiers on this signature represented as an int.  Use
-     * the constants and helper methods defined on
-     * {@code java.lang.reflect.Modifier} to manipulate this, i.e.
+     * the constants and helper methods defined on {@code java.lang.reflect.Modifier} to manipulate this, i.e.
      * <pre>
      *     // check if this signature is public
      *     java.lang.reflect.Modifier.isPublic(sig.getModifiers());
@@ -48,7 +47,7 @@ public interface MethodSignature {
      * method named {@code getDeclaringClass()}.</p>
      *
      * @return a {@code java.lang.Class} object representing the class, interface,
-     * or aspect (proxy) that declared this member
+     *     or aspect (proxy) that declared this member
      * @see java.lang.reflect.Member#getDeclaringClass
      */
     Class<?> getDeclaringClass();

@@ -23,6 +23,15 @@ public class DefaultLepResourceDescriptor implements LepResourceDescriptor {
         super();
     }
 
+    /**
+     * Lep resource descriptor constructor.
+     *
+     * @param type             resource type
+     * @param subType          sub type
+     * @param key              resource key
+     * @param creationTime     resource creation time
+     * @param modificationTime resource modification time
+     */
     public DefaultLepResourceDescriptor(LepResourceType type,
                                         LepResourceType subType,
                                         LepResourceKey key,
@@ -35,6 +44,14 @@ public class DefaultLepResourceDescriptor implements LepResourceDescriptor {
         this.modificationTime = modificationTime;
     }
 
+    /**
+     * Lep resource descriptor constructor.
+     *
+     * @param type             resource type
+     * @param key              resource key
+     * @param creationTime     resource creation time
+     * @param modificationTime resource modification time
+     */
     public DefaultLepResourceDescriptor(LepResourceType type,
                                         LepResourceKey key,
                                         Instant creationTime,
@@ -42,6 +59,13 @@ public class DefaultLepResourceDescriptor implements LepResourceDescriptor {
         this(type, null, key, creationTime, modificationTime);
     }
 
+    /**
+     * Lep resource descriptor constructor.
+     *
+     * @param type         resource type
+     * @param key          resource key
+     * @param creationTime resource creation time
+     */
     public DefaultLepResourceDescriptor(LepResourceType type,
                                         LepResourceKey key,
                                         Instant creationTime) {
@@ -53,42 +77,57 @@ public class DefaultLepResourceDescriptor implements LepResourceDescriptor {
      */
     @Override
     public String toString() {
-        StringBuilder buffer = new StringBuilder(this.getClass().getSimpleName());
-        buffer.append(" [");
-        buffer.append("type: ").append(Objects.toString(type)).append(", ");
-        buffer.append("subType: ").append(Objects.toString(subType)).append(", ");
-        buffer.append("key: ").append(Objects.toString(key)).append(", ");
-        buffer.append("creationTime: ").append(Objects.toString(creationTime)).append(", ");
-        buffer.append("modificationTime: ").append(Objects.toString(modificationTime));
-        buffer.append("]");
-        return buffer.toString();
+        return this.getClass().getSimpleName()
+            + " [type: " + Objects.toString(type)
+            + ", subType: " + Objects.toString(subType)
+            + ", key: " + Objects.toString(key)
+            + ", creationTime: " + Objects.toString(creationTime)
+            + ", modificationTime: " + Objects.toString(modificationTime) + "]";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LepResourceType getType() {
         return type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LepResourceType getSubType() {
         return subType;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LepResourceKey getKey() {
         return key;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Instant getCreationTime() {
         return creationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Instant getModificationTime() {
         return modificationTime;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Version getVersion() {
         return getKey().getVersion();

@@ -16,6 +16,11 @@ import java.util.function.Supplier;
  */
 public class GroovyLepExecutor extends StrategyGroovyLepExecutor implements LepExecutor {
 
+    /**
+     * GroovyLepExecutor constructor.
+     *
+     * @param resourceKeyMapper script name to URL LepKey mapper
+     */
     public GroovyLepExecutor(ScriptNameLepResourceKeyMapper resourceKeyMapper) {
         super(resourceKeyMapper,
               new LazyGroovyScriptEngineProviderStrategy(resourceKeyMapper),

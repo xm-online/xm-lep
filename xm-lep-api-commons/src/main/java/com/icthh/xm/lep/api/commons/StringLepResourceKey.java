@@ -51,8 +51,8 @@ public class StringLepResourceKey implements LepResourceKey {
 
         if (obj instanceof StringLepResourceKey) {
             StringLepResourceKey other = StringLepResourceKey.class.cast(obj);
-            return Objects.equals(this.getId(), other.getId()) &&
-                Objects.equals(this.getVersion(), other.getVersion());
+            return Objects.equals(this.getId(), other.getId())
+                && Objects.equals(this.getVersion(), other.getVersion());
         }
 
         return false;

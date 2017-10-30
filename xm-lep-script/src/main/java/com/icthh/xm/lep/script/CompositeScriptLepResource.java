@@ -22,6 +22,9 @@ public class CompositeScriptLepResource extends ScriptLepResource implements Com
         this.children = children;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<LepResource> getChildren() {
         return (children == null) ? Collections.emptyList() : children;

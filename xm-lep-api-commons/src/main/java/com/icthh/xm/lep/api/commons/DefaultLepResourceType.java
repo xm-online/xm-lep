@@ -11,6 +11,11 @@ public class DefaultLepResourceType implements LepResourceType {
 
     private final String name;
 
+    /**
+     * Type name constructor.
+     *
+     * @param name type name
+     */
     public DefaultLepResourceType(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("name can't be blank");

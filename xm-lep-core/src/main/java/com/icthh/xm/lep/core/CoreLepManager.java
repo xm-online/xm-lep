@@ -50,12 +50,13 @@ public class CoreLepManager implements LepManager {
     /**
      * Holder for LepProcessingListener's.
      */
-    private ListenersHolder<LepProcessingListener, LepProcessingEvent> processingListeners = new ListenersHolder<>();
+    private final ListenersHolder<LepProcessingListener, LepProcessingEvent> processingListeners =
+        new ListenersHolder<>();
 
     /**
      * Holder for LepManagerListener's.
      */
-    private ListenersHolder<LepManagerListener, LepManagerEvent> managerListeners = new ListenersHolder<>();
+    private final ListenersHolder<LepManagerListener, LepManagerEvent> managerListeners = new ListenersHolder<>();
 
     /**
      * Extension service instance.
@@ -140,9 +141,8 @@ public class CoreLepManager implements LepManager {
 
     protected final void validateIsInitialized() {
         if (!isInitialized()) {
-            throw new IllegalStateException(getClass().getSimpleName() +
-                                                " not initialized (current state: " +
-                                                currentState + ")");
+            throw new IllegalStateException(getClass().getSimpleName()
+                                                + " not initialized (current state: " + currentState + ")");
         }
     }
 
@@ -211,8 +211,8 @@ public class CoreLepManager implements LepManager {
                 if (extensionKey == null) {
                     throw new IllegalStateException("Key resolver: "
                                                         + keyResolver.getClass().getCanonicalName()
-                                                        + " return null for " +
-                                                        getLepDescription(baseKey, method));
+                                                        + " return null for "
+                                                        + getLepDescription(baseKey, method));
                 }
             } else {
                 extensionKey = baseKey;

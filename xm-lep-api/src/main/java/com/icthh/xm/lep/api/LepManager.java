@@ -38,7 +38,7 @@ public interface LepManager extends LepManagerService {
      *
      * @param listener the listener to add
      * @return {@code true} if the specified listener successfully added or manager already
-     * contains the specified listener
+     *     contains the specified listener
      */
     boolean registerProcessingListener(LepProcessingListener listener);
 
@@ -54,8 +54,8 @@ public interface LepManager extends LepManagerService {
      * Add manager listener.
      *
      * @param listener the listener to add
-     * @return {@code true} if the specified listener successfully added or manager already
-     * contains the specified listener
+     * @return {@code true} if the specified listener successfully added or manager already contains the specified
+     *     listener
      */
     boolean registerLepManagerListener(LepManagerListener listener);
 

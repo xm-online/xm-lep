@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 /**
  * The {@link ExecutionStrategy} interface.
  */
-public interface ExecutionStrategy<E, RK extends LepResourceKey> {
+public interface ExecutionStrategy<E, K extends LepResourceKey> {
 
     /**
      * Executes LEP resource using some executor.
@@ -22,7 +22,7 @@ public interface ExecutionStrategy<E, RK extends LepResourceKey> {
      * @return LEP method result
      * @throws LepInvocationCauseException when LEP invocation resource throws exception
      */
-    Object executeLepResource(RK resourceKey,
+    Object executeLepResource(K resourceKey,
                               LepMethod method,
                               LepManagerService managerService,
                               Supplier<E> resourceExecutorSupplier) throws LepInvocationCauseException;

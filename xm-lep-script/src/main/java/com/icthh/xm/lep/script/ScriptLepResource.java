@@ -24,11 +24,18 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
     private static final int SCRIPT_PREVIEW_MAX_LENGTH = 360;
     private static final int SCRIPT_PREVIEW_LINES_COUNT = 5;
 
-    private LepResourceDescriptor descriptor;
+    private final LepResourceDescriptor descriptor;
     private String encoding;
     private String scriptText;
     private InputStreamSupplier textStreamSupplier;
 
+    /**
+     * String text script constructor.
+     *
+     * @param descriptor resource descriptor
+     * @param encoding   script text encoding
+     * @param scriptText script text
+     */
     public ScriptLepResource(LepResourceDescriptor descriptor,
                              String encoding,
                              String scriptText) {
@@ -37,6 +44,13 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
         setEncoding(encoding);
     }
 
+    /**
+     * Stream text script constructor.
+     *
+     * @param descriptor         resource descriptor
+     * @param encoding           script text stream encoding
+     * @param textStreamSupplier script text stream supplier
+     */
     public ScriptLepResource(LepResourceDescriptor descriptor,
                              String encoding,
                              InputStreamSupplier textStreamSupplier) {
@@ -79,11 +93,17 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
                                       true, SCRIPT_PREVIEW_MAX_LENGTH);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LepResourceDescriptor getDescriptor() {
         return descriptor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <V> V getValue(Class<? extends V> valueClass) {
         if (String.class.equals(valueClass)) {
@@ -103,10 +123,20 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
                                                + ", only String.class and InputStream.class are supported");
     }
 
+    /**
+     * Gets script text encoding.
+     *
+     * @return script text encoding
+     */
     public String getEncoding() {
         return encoding;
     }
 
+    /**
+     * Gets script text.
+     *
+     * @return text of script
+     */
     public String getScriptText() {
         if (textStreamSupplier == null) {
             return scriptText;
@@ -125,6 +155,12 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
         }
     }
 
+    /**
+     * Gets script text bytes.
+     *
+     * @return script text bytes
+     * @throws IOException if IO error occurs
+     */
     public byte[] getScriptBytes() throws IOException {
         Charset encoding = Charset.forName(getEncoding());
 
@@ -135,10 +171,10 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
             try {
                 //BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, encoding));
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                int nRead;
+                int actualRead;
                 byte[] data = new byte[1024];
-                while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                    buffer.write(data, 0, nRead);
+                while ((actualRead = inputStream.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, actualRead);
                 }
 
                 buffer.flush();
@@ -153,6 +189,9 @@ public class ScriptLepResource implements LepResource, InputStreamSupplier {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InputStream getInputStream() throws IOException {
         if (textStreamSupplier == null) {

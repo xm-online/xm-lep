@@ -32,10 +32,16 @@ public class UrlLepResourceKey implements LepResourceKey {
 
     private static final String URL_PARAM_VALUE_SPLITTER = "=";
     private static final String URL_PARAMS_SPLITTER = "&";
+    private static final int MAX_URL_PARARMS_VERSION = 1;
 
     private final URL url;
     private final Version version;
 
+    /**
+     * URL based constructor.
+     *
+     * @param url LEP resource key URL
+     */
     public UrlLepResourceKey(URL url) {
         this.url = Objects.requireNonNull(url, "url can't be null");
 
@@ -48,7 +54,7 @@ public class UrlLepResourceKey implements LepResourceKey {
         if (versionValues == null || versionValues.isEmpty()) {
             return null;
         } else {
-            if (versionValues.size() > 1) {
+            if (versionValues.size() > MAX_URL_PARARMS_VERSION) {
                 throw new IllegalArgumentException("More than one value for 'version' URL param: " + versionValues);
             }
             String strVersion = versionValues.iterator().next();
@@ -113,12 +119,12 @@ public class UrlLepResourceKey implements LepResourceKey {
         return new URLStreamHandler() {
             @Override
             protected URLConnection openConnection(URL url) throws IOException {
-                return buildDefaultURLConnection(url);
+                return buildDefaultUrlConnection(url);
             }
         };
     }
 
-    private static URLConnection buildDefaultURLConnection(URL url) {
+    private static URLConnection buildDefaultUrlConnection(URL url) {
         return new URLConnection(url) {
             @Override
             public void connect() throws IOException {
@@ -144,11 +150,14 @@ public class UrlLepResourceKey implements LepResourceKey {
     private static URL buildUrl(String urlSpec,
                                 URLStreamHandler handler) {
         try {
+            URLStreamHandler keyHandler;
             if (handler == null && urlSpec.startsWith(LEP_PROTOCOL + ":")) {
-                handler = buildDefaultStreamHandler();
+                keyHandler = buildDefaultStreamHandler();
+            } else {
+                keyHandler = handler;
             }
 
-            return new URL(null, urlSpec, handler);
+            return new URL(null, urlSpec, keyHandler);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Can't build URL by LEP resource spec: "
                                                    + urlSpec
@@ -162,20 +171,15 @@ public class UrlLepResourceKey implements LepResourceKey {
                                 int port,
                                 String resourceKeyId,
                                 URLStreamHandler handler) {
-        handler = getUrlStreamHandler(protocol, handler);
-
         try {
-            return new URL(protocol, host, port, resourceKeyId, handler);
+            return new URL(protocol, host, port, resourceKeyId, getUrlStreamHandler(protocol, handler));
         } catch (MalformedURLException e) {
             throw new IllegalStateException("Error while creating LEP key: " + e.getMessage(), e);
         }
     }
 
     private static URLStreamHandler getUrlStreamHandler(String protocol, URLStreamHandler handler) {
-        if (handler == null && LEP_PROTOCOL.equals(protocol)) {
-            handler = buildDefaultStreamHandler();
-        }
-        return handler;
+        return (handler == null && LEP_PROTOCOL.equals(protocol)) ? buildDefaultStreamHandler() : handler;
     }
 
     public String getUrlResourcePath() {

@@ -13,7 +13,7 @@ public abstract class BaseLepExecutor implements LepExecutor {
     /**
      * Holder for LepExecutorListener's.
      */
-    private ListenersHolder<LepExecutorListener, LepExecutorEvent> executorListeners = new ListenersHolder<>();
+    private final ListenersHolder<LepExecutorListener, LepExecutorEvent> executorListeners = new ListenersHolder<>();
 
     protected void fireEvent(LepExecutorEvent event) {
         executorListeners.fireEvent(event);

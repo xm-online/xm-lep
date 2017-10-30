@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class DefaultContext implements Context {
 
-    private Map<String, Object> values = new HashMap<>();
+    private final Map<String, Object> values = new HashMap<>();
 
     /**
      * {@inheritDoc}

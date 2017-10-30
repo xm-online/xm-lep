@@ -28,13 +28,20 @@ public abstract class LepExecutorEvent extends EventObject {
         return LepExecutor.class.cast(source);
     }
 
-    public static abstract class BaseLepExecutorEvent extends LepExecutorEvent {
+    public abstract static class BaseLepExecutorEvent extends LepExecutorEvent {
 
         private static final long serialVersionUID = 8937662902122107331L;
 
         private final transient LepResourceKey key;
         private final transient LepMethod method;
 
+        /**
+         * Base constructor.
+         *
+         * @param source event source
+         * @param key    resource key
+         * @param method LEP method
+         */
         public BaseLepExecutorEvent(LepExecutor source,
                                     LepResourceKey key,
                                     LepMethod method) {
@@ -71,6 +78,14 @@ public abstract class LepExecutorEvent extends EventObject {
 
         private final transient ResultObject result;
 
+        /**
+         * Base constructor.
+         *
+         * @param source event source
+         * @param key    resource key
+         * @param method LEP method
+         * @param result method execution result
+         */
         public AfterResourceExecutionEvent(LepExecutor source,
                                            LepResourceKey key,
                                            LepMethod method,
@@ -108,12 +123,22 @@ public abstract class LepExecutorEvent extends EventObject {
         private final Object value;
         private final Exception exception;
 
+        /**
+         * Error result.
+         *
+         * @param exception resulting exception
+         */
         public ResultObject(Exception exception) {
             this.present = false;
             this.value = null;
             this.exception = exception;
         }
 
+        /**
+         * Non error result.
+         *
+         * @param value resulting value
+         */
         public ResultObject(Object value) {
             this.present = true;
             this.value = value;

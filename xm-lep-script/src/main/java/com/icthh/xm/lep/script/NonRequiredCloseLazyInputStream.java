@@ -19,31 +19,49 @@ public abstract class NonRequiredCloseLazyInputStream extends InputStream {
 
     abstract InputStream buildDelegate() throws IOException;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int read() throws IOException {
         return getDelegate().read();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int read(byte b[]) throws IOException {
-        return getDelegate().read(b);
+    public int read(byte[] buffer) throws IOException {
+        return getDelegate().read(buffer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public int read(byte b[], int off, int len) throws IOException {
-        return getDelegate().read(b, off, len);
+    public int read(byte[] buffer, int off, int len) throws IOException {
+        return getDelegate().read(buffer, off, len);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public long skip(long n) throws IOException {
-        return getDelegate().skip(n);
+    public long skip(long count) throws IOException {
+        return getDelegate().skip(count);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int available() throws IOException {
         return getDelegate().available();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean markSupported() {
         try {
@@ -53,6 +71,9 @@ public abstract class NonRequiredCloseLazyInputStream extends InputStream {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mark(int readAheadLimit) {
         try {
@@ -62,11 +83,17 @@ public abstract class NonRequiredCloseLazyInputStream extends InputStream {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void reset() throws IOException {
         getDelegate().reset();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() {
         // nop

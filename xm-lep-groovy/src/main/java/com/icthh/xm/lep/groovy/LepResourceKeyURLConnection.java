@@ -15,6 +15,7 @@ import java.util.Objects;
 /**
  * The {@link LepResourceKeyURLConnection} class implements lazy data loading for {@link ScriptLepResource}.
  */
+@SuppressWarnings("checkstyle:abbreviationaswordinname")
 public class LepResourceKeyURLConnection extends URLConnection {
 
     private final UrlLepResourceKey resourceKey;
@@ -22,6 +23,10 @@ public class LepResourceKeyURLConnection extends URLConnection {
     private final LepResourceService resourceService;
 
     private final ContextsHolder contextsHolder;
+
+    private LepResourceDescriptor resourceDescriptor;
+
+    private ScriptLepResource resource;
 
     /**
      * Constructs a URLConnection subclass to the specified URL.
@@ -72,8 +77,6 @@ public class LepResourceKeyURLConnection extends URLConnection {
         return getResourceDescriptor().getModificationTime().toEpochMilli();
     }
 
-    private LepResourceDescriptor resourceDescriptor;
-
     private LepResourceDescriptor getResourceDescriptor() {
         if (resourceDescriptor == null) {
             resourceDescriptor = resourceService.getResourceDescriptor(contextsHolder, resourceKey);
@@ -84,8 +87,6 @@ public class LepResourceKeyURLConnection extends URLConnection {
         }
         return resourceDescriptor;
     }
-
-    private ScriptLepResource resource;
 
     private ScriptLepResource getResource() {
         if (resource == null) {

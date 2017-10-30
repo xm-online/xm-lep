@@ -17,36 +17,54 @@ public class DefaultLepMethod implements LepMethod {
     private final MethodSignature methodSignature;
     private final Object[] methodArgValues;
 
+    /**
+     * LEP method constructor with method arguments.
+     *
+     * @param target          method target
+     * @param methodSignature method signature
+     * @param methodArgValues method argument values
+     */
     public DefaultLepMethod(Object target,
                             MethodSignature methodSignature,
                             Object[] methodArgValues) {
         this.target = target;
         this.methodSignature = Objects.requireNonNull(methodSignature, "methodSignature can't be null");
-        this.methodArgValues = (methodArgValues == null) ? null
+        this.methodArgValues = (methodArgValues == null) ? EMPTY_OBJ_ARRAY
             : Arrays.copyOf(methodArgValues, methodArgValues.length);
     }
 
+    /**
+     * LEP method constructor without methods arguments.
+     *
+     * @param target          method target
+     * @param methodSignature method signature
+     */
     public DefaultLepMethod(Object target,
                             MethodSignature methodSignature) {
         this(target, methodSignature, null);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object getTarget() {
         return target;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MethodSignature getMethodSignature() {
         return methodSignature;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object[] getMethodArgValues() {
-        if (methodArgValues == null) {
-            return EMPTY_OBJ_ARRAY;
-        }
         return Arrays.copyOf(methodArgValues, methodArgValues.length);
     }
 

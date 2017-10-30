@@ -23,6 +23,11 @@ public class SeparatorSegmentedLepKey implements LepKey {
     public static final GroupMode DEFAULT_GROUP_MODE = GroupMode.none();
 
     /**
+     * Minimal segments length/count.
+     */
+    private static final int MIN_SEGMENTS_LENGTH = 1;
+
+    /**
      * Key identification value.
      */
     private final String id;
@@ -52,10 +57,17 @@ public class SeparatorSegmentedLepKey implements LepKey {
      */
     private final SeparatorSegmentedLepKey groupKey;
 
+    /**
+     * Separator segmented LepKey constructor.
+     *
+     * @param separator segments separator
+     * @param segments  segments String array
+     * @param groupMode group mode
+     */
     public SeparatorSegmentedLepKey(String separator, String[] segments, GroupMode groupMode) {
         Objects.requireNonNull(separator, "separator can't be null");
         Objects.requireNonNull(segments, "segments can't be null");
-        if (segments.length < 1) {
+        if (segments.length < MIN_SEGMENTS_LENGTH) {
             throw new IllegalArgumentException("Must be at least one segment");
         }
 
@@ -131,7 +143,10 @@ public class SeparatorSegmentedLepKey implements LepKey {
                                             groupMode.getParent());
     }
 
-    private static String buildId(String separator, String[] segments, GroupMode groupMode, GroupModeType groupModeType) {
+    private static String buildId(String separator,
+                                  String[] segments,
+                                  GroupMode groupMode,
+                                  GroupModeType groupModeType) {
         // build ID
         int idFrom;
         int idTo;
@@ -174,28 +189,66 @@ public class SeparatorSegmentedLepKey implements LepKey {
         return concatStrArray(separator, idSegments);
     }
 
+    /**
+     * Separator segmented LepKey constructor for string.
+     *
+     * @param segments  segments string
+     * @param separator segments separator
+     * @param groupMode group mode
+     */
     public SeparatorSegmentedLepKey(String segments, String separator, GroupMode groupMode) {
         this(Objects.requireNonNull(separator, "separator can't be null"),
              Objects.requireNonNull(segments, "segments can't be null").split(Pattern.quote(separator)),
              groupMode);
     }
 
+    /**
+     * Separator segmented LepKey constructor for string with default group mode: {@link #DEFAULT_GROUP_MODE}.
+     *
+     * @param segments  segments string
+     * @param separator group mode
+     */
     public SeparatorSegmentedLepKey(String segments, String separator) {
         this(segments, separator, DEFAULT_GROUP_MODE);
     }
 
+    /**
+     * Separator segmented LepKey constructor for string with default group mode: {@link #DEFAULT_GROUP_MODE}
+     * and default separator: {@link #DEFAULT_SEPARATOR}.
+     *
+     * @param segments segments string
+     */
     public SeparatorSegmentedLepKey(String segments) {
         this(segments, DEFAULT_SEPARATOR);
     }
 
+    /**
+     * Separator segmented LepKey constructor for string with default separator: {@link #DEFAULT_SEPARATOR}.
+     *
+     * @param segments  segments string
+     * @param groupMode group mode
+     */
     public SeparatorSegmentedLepKey(String segments, GroupMode groupMode) {
         this(segments, DEFAULT_SEPARATOR, groupMode);
     }
 
+    /**
+     * Separator segmented LepKey constructor for string array with default group mode: {@link #DEFAULT_GROUP_MODE}.
+     *
+     * @param separator group mode
+     * @param segments  segments string array
+     */
     public SeparatorSegmentedLepKey(String separator, String[] segments) {
         this(separator, segments, DEFAULT_GROUP_MODE);
     }
 
+    /**
+     * Separator segmented LepKey constructor for list.
+     *
+     * @param separator segments separator
+     * @param segments  segments String list
+     * @param groupMode group mode
+     */
     public SeparatorSegmentedLepKey(String separator, List<String> segments, GroupMode groupMode) {
         this(separator,
              segments.toArray(new String[
@@ -250,10 +303,21 @@ public class SeparatorSegmentedLepKey implements LepKey {
         return groupKey;
     }
 
+    /**
+     * Gets all segments as array.
+     *
+     * @return segments array copy
+     */
     public String[] getSegments() {
         return Arrays.copyOf(segments, segments.length);
     }
 
+    /**
+     * Get segment by index.
+     *
+     * @param index segment index (base 0)
+     * @return segment value
+     */
     public String getSegment(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Index can't be negative (value: " + index + ")");

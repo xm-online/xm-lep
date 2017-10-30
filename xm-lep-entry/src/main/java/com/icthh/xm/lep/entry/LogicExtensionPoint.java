@@ -13,7 +13,10 @@ import java.lang.annotation.Target;
  * Custom implementation represents by {@link com.icthh.xm.lep.api.LepResource}) interface and
  * can be script, byte code, etc.
  */
-@Target( {ElementType.METHOD, ElementType.TYPE})
+@Target({
+    ElementType.METHOD,
+    ElementType.TYPE
+})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LogicExtensionPoint {
 
