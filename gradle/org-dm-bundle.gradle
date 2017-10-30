@@ -1,0 +1,24 @@
+apply plugin: 'org.dm.bundle'
+
+configurations {
+    embedCompile
+    compile {
+        extendsFrom embedCompile
+    }
+}
+
+ext.bundleClassPath = {
+    def list = ['.']
+    configurations.embedCompile.each {
+        list += 'OSGI-INF/lib/' + it.name
+    }
+    return list.join(',')
+}
+
+ext.bundleIncludeResource = {
+    def list = []
+    configurations.embedCompile.each {
+        list += 'OSGI-INF/lib/' + it.name + "=" + it.path
+    }
+    return list.join(',')
+}

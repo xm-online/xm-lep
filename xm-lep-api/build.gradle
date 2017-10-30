@@ -1,0 +1,13 @@
+description = 'XM^online LEP API'
+
+dependencies {
+    testCompile "junit:junit:$versions.junit"
+}
+
+apply from: rootProject.file('gradle/org-dm-bundle-common.gradle')
+
+bundle {
+    instructions << [
+        'Export-Package'  : 'com.icthh.xm.lep.api,com.icthh.xm.lep.api.util',
+    ]
+}
