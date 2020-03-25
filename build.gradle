@@ -28,6 +28,11 @@ plugins {
 apply plugin: 'base'
 apply plugin: 'io.codearte.nexus-staging'
 
+// project parameters
+project.group = property('app.group')
+project.description = property('app.description')
+project.version = property('app.version')
+
 reckon {
     normal = scopeFromProp()
     preRelease = stageFromProp('milestone', 'rc', 'final')
@@ -38,10 +43,6 @@ reckon {
 apply from: rootProject.file('gradle/version.gradle')
 
 apply from: rootProject.file('gradle/git.gradle')
-
-// project parameters
-project.group = property('app.group')
-project.description = property('app.description')
 
 task wrapper(type: Wrapper) {
     gradleVersion = "${versions.gradle}"

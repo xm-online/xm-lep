@@ -7,7 +7,7 @@ ext.versions = [
     findbugs      : '3.0.1',
     pmd           : '5.5.4',
 
-    groovyAll     : '2.4.11',
+    groovyAll     : '2.5.10',
 
     junit         : '4.12',
     mockito       : '2.+',
